@@ -1,0 +1,20 @@
+export ADDR='172.22.151.181'
+export HUE_USER='ORMDpM9XmpurRMBt5eT0UrwWNM3VgChCZ08v8zcy'
+export ADDR='172.22.151.185'
+export HUE_USER='ISr8hVdpuJmmDs-COJb-d29KQD3tlgcdocc36eiD'
+curl http://$ADDR/api/$HUE_USER/lights/
+
+//-d for data
+
+curl -X POST -d '{"devicetype":"mft291"}' http://$ADDR/api/
+curl -X GET -d '{"on":true}' http://$ADDR/api/$HUE_USER/lights/
+curl -X PUT -d '{"on":true}' http://$ADDR/api/$HUE_USER/lights/1/state
+curl -X PUT -d '{"on":false}' http://$ADDR/api/$HUE_USER/lights/1/state
+curl -X PUT -d '{"bri":255}' http://$ADDR/api/$HUE_USER/lights/1/state
+
+curl -X PUT -d '{"on":true}' http://$ADDR/api/$HUE_USER/lights/3/state
+curl -X PUT -d '{"on":false}' http://$ADDR/api/$HUE_USER/lights/3/state
+
+
+
+

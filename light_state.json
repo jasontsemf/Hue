@@ -1,0 +1,54 @@
+{
+    "1": {
+        "state": {
+            "on": true,
+            "bri": 1,
+            "hue": 42900,
+            "sat": 144,
+            "effect": "none",
+            "xy": [0.2862, 0.2388],
+            "ct": 153,
+            "alert": "none",
+            "colormode": "hs",
+            "mode": "homeautomation",
+            "reachable": true
+        },
+        "swupdate": {
+            "state": "readytoinstall",
+            "lastinstall": "2020-02-07T22:12:03"
+        },
+        "type": "Extended color light",
+        "name": "Hue color lamp 1",
+        "modelid": "LCT001",
+        "manufacturername": "Philips",
+        "productname": "Hue color lamp",
+        "capabilities": {
+            "certified": true,
+            "control": {
+                "mindimlevel": 5000,
+                "maxlumen": 600,
+                "colorgamuttype": "B",
+                "colorgamut": [
+                    [0.6750, 0.3220],
+                    [0.4090, 0.5180],
+                    [0.1670, 0.0400]
+                ],
+                "ct": {
+                    "min": 153,
+                    "max": 500
+                }
+            },
+            "streaming": {
+                "renderer": false,
+                "proxy": false
+            }
+        },
+        "config": {
+            "archetype": "sultanbulb",
+            "function": "mixed",
+            "direction": "omnidirectional"
+        },
+        "uniqueid": "00:17:88:01:00:d8:af:4c-0b",
+        "swversion": "5.5.1.9663"
+    }
+}
