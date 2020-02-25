@@ -2,6 +2,8 @@ export ADDR='172.22.151.181'
 export HUE_USER='ORMDpM9XmpurRMBt5eT0UrwWNM3VgChCZ08v8zcy'
 export ADDR='172.22.151.185'
 export HUE_USER='ISr8hVdpuJmmDs-COJb-d29KQD3tlgcdocc36eiD'
+export ADDR='172.22.151.184'
+export HUE_USER='Jw-Si-Yh0VTqRw9l84uj7Koc0aSbOx3Zkhh65EeM'
 curl http://$ADDR/api/$HUE_USER/lights/
 
 //-d for data

@@ -5,6 +5,12 @@
 
 #define switch 8
 
+//Encoder knobLeft(5, 6);
+//Encoder knob1(2,3);
+//Encoder knob2(4,5);
+//Encoder knob3(6,7);
+//Encoder encoder[3] = {knob1, knob2, knob3};
+  
 WiFiClient wifi;
 String onApi = "  {\"on\": true}";
 String offApi = "  {\"on\": false}";
@@ -12,14 +18,16 @@ boolean currentState = false;
 boolean previousState = false;
 
 String hubAddress[] = {"172.22.151.185",
-                       "172.22.151.181"
+                       "172.22.151.181",
+                       "172.22.151.184"
                       };
 String hubLogin[] = {"ISr8hVdpuJmmDs-COJb-d29KQD3tlgcdocc36eiD",
-                     "ORMDpM9XmpurRMBt5eT0UrwWNM3VgChCZ08v8zcy"
+                     "ORMDpM9XmpurRMBt5eT0UrwWNM3VgChCZ08v8zcy",
+                     "Jw-Si-Yh0VTqRw9l84uj7Koc0aSbOx3Zkhh65EeM"
                     };
-int lightNumbers[] = {3, 1};
+int lightNumbers[] = {3, 1, 1};
 HttpClient httpClient = HttpClient(wifi, hubAddress[0]);
-int currentHub = 1;
+int currentHub = 2;
 
 long lastRequest[] = {10000,10000,10000,10000};
 int requestDelay[] = {500,1500,1500,1500};
@@ -42,6 +50,10 @@ int rotaryState[3];
 int pRotaryState[3];
 int sentCounter[] = {0,0,0};
 bool sent[] = {false,false,false};
+
+long positionLeft  = -999;
+long positionRight = -999;
+
 
 void setup() {
   Serial.begin(9600);
@@ -92,19 +104,23 @@ void loop() {
     }
   }
 
-  int reading = digitalRead(switch);
-  // debounce handling
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-    if (reading != switchState) {
-      switchState = reading;
-      // only toggle if the switch in on
-      if (switchState == HIGH) {
-        lightState = HIGH;
-      }else{
+//  Modified version of SensorExamples/Encoders/Encoder_Button_Steps/Encoder_Button_Steps.ino
+//  By Tom Igoe https://github.com/tigoe/SensorExamples/blob/master/Encoders/Encoder_Button_Steps/Encoder_Button_Steps.ino
+  int switchState = digitalRead(switch);
+  // if the button has changed:
+  if (switchState != pSwitchState) {
+    // debounce the button:
+    delay(10);
+    // if button is pressed:
+    if (switchState == LOW) {
         lightState = LOW;
-      }
+    } else {
+      lightState = HIGH;
     }
+    // save current state for next time through the loop:
+    pSwitchState = switchState;
   }
+
   //
   if(lightState != pLightState){
     // wait till switch signal is stable
@@ -124,11 +140,32 @@ void loop() {
     pLightState = lightState;
   }
 
-  // read all 3 rotary encoders
+
+//  long newLeft, newRight;
+//  newLeft = encoder[0].read();
+//  newRight = encoder[1].read();
+//  if (newLeft != positionLeft || newRight != positionRight) {
+//    Serial.print("Left = ");
+//    Serial.print(newLeft);
+//    Serial.print(", Right = ");
+//    Serial.print(newRight);
+//    Serial.println();
+//    positionLeft = newLeft;
+//    positionRight = newRight;
+//  }
+//  // if a character is sent from the serial monitor,
+//  // reset both back to zero.
+//  if (Serial.available()) {
+//    Serial.read();
+//    Serial.println("Reset both knobs to zero");
+//    encoder[0].write(0);
+//    encoder[1].write(0);
+//  }
+//   read all 3 rotary encoders
   readRotary(0, "bri", 254);
   readRotary(1, "hue", 65535);
   readRotary(2, "sat", 254);
-  pSwitchState = reading;
+//  pSwitchState = reading;
 }
 
 void sendRequest(int hubNumber, int light, String myState) {
@@ -153,6 +190,11 @@ void sendRequest(int hubNumber, int light, String myState) {
   httpClient.put(request, contentType, body);
 }
 
+
+/*     
+ *  Modified and origianlly based on Arduino Rotary Encoder Tutorial
+ *  by Dejan Nedelkovski, www.HowToMechatronics.com 
+ */
 void readRotary(int index, String prop, int cap){
   rotaryState[index] = digitalRead(output[index][0]);
   // detect rotary encoder state change
